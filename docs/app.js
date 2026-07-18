@@ -100,15 +100,21 @@ async function fetchVehicles() {
     const caps = call.Extensions?.Capacities || {};
     const loc  = j.VehicleLocation || {};
 
-    let etaMyStop = null, etaAlertStop = null, etaManhattan = null;
+    let etaMyStop = null, etaAlertStop = null, etaManhattan = null, etaManhattanTime = null;
     for (const c of (j.OnwardCalls?.OnwardCall || [])) {
       if (c.StopPointRef === MY_STOP_ID    && etaMyStop    == null) etaMyStop    = minsUntil(c.ExpectedArrivalTime);
       if (c.StopPointRef === ALERT_STOP_ID && etaAlertStop == null) etaAlertStop = minsUntil(c.ExpectedArrivalTime);
-      if (c.StopPointRef === MANHATTAN_STOP && etaManhattan == null) etaManhattan = minsUntil(c.ExpectedArrivalTime);
+      if (c.StopPointRef === MANHATTAN_STOP && etaManhattan == null) {
+        etaManhattan     = minsUntil(c.ExpectedArrivalTime);
+        etaManhattanTime = c.ExpectedArrivalTime || null;
+      }
     }
     if (call.StopPointRef === MY_STOP_ID    && etaMyStop    == null) etaMyStop    = minsUntil(call.ExpectedArrivalTime);
     if (call.StopPointRef === ALERT_STOP_ID && etaAlertStop == null) etaAlertStop = minsUntil(call.ExpectedArrivalTime);
-    if (call.StopPointRef === MANHATTAN_STOP && etaManhattan == null) etaManhattan = minsUntil(call.ExpectedArrivalTime);
+    if (call.StopPointRef === MANHATTAN_STOP && etaManhattan == null) {
+      etaManhattan     = minsUntil(call.ExpectedArrivalTime);
+      etaManhattanTime = call.ExpectedArrivalTime || null;
+    }
 
     return {
       vehicleRef:          j.VehicleRef || '',
@@ -118,7 +124,7 @@ async function fetchVehicles() {
       distanceFromCall:    typeof dist.DistanceFromCall === 'number' ? dist.DistanceFromCall : null,
       lat:                 typeof loc.Latitude  === 'number' ? loc.Latitude  : null,
       lon:                 typeof loc.Longitude === 'number' ? loc.Longitude : null,
-      etaMyStop, etaAlertStop, etaManhattan,
+      etaMyStop, etaAlertStop, etaManhattan, etaManhattanTime,
       passengerCount:    typeof caps.EstimatedPassengerCount    === 'number' ? caps.EstimatedPassengerCount    : null,
       passengerCapacity: typeof caps.EstimatedPassengerCapacity === 'number' ? caps.EstimatedPassengerCapacity : null,
       loadFactor:        caps.EstimatedPassengerLoadFactor || j.Occupancy || null,
@@ -305,7 +311,13 @@ function renderManhattanEta(vehicles) {
   els.etaBody.innerHTML = rows.map(v => {
     const mins = Math.max(0, v.etaManhattan);
     const busLoc = v.atStop ? `at ${esc(v.nextStopName)}` : v.nextStopName ? `→ ${esc(v.nextStopName)}` : '';
-    return `<div class="eta-row"><div class="eta-mins">${mins === 0 ? 'now' : mins + ' min'}</div><div class="eta-label">${busLoc}</div></div>`;
+    const arrTime = v.etaManhattanTime
+      ? new Date(v.etaManhattanTime).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
+      : null;
+    const timeStr = arrTime
+      ? `${arrTime} <span class="eta-paren">(${mins === 0 ? 'now' : mins + ' min'})</span>`
+      : (mins === 0 ? 'now' : mins + ' min');
+    return `<div class="eta-row"><div class="eta-mins">${timeStr}</div><div class="eta-label">${busLoc}</div></div>`;
   }).join('') + '<div class="eta-dest">Church St / Liberty St</div>';
 }
 
