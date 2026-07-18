@@ -262,13 +262,13 @@ const WX = {
 async function fetchWeather() {
   try {
     const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.635&longitude=-74.030' +
-      '&current=temperature_2m,weathercode,windspeed_10m,precipitation' +
+      '&current=temperature_2m,apparent_temperature,weathercode,windspeed_10m,precipitation' +
       '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America/New_York');
     const d = await r.json();
     const c = d.current, wx = WX[c.weathercode] || {l:'Unknown', s:'?'};
     const precip = c.precipitation > 0 ? ` · ${c.precipitation.toFixed(1)}" precip` : '';
     els.weather.innerHTML =
-      `<div class="wx-temp">${wx.s} ${Math.round(c.temperature_2m)}&deg;F</div>` +
+      `<div class="wx-temp">${wx.s} ${Math.round(c.apparent_temperature)}&deg;F</div>` +
       `<div class="wx-desc">${wx.l}</div>` +
       `<div class="wx-row">Wind ${Math.round(c.windspeed_10m)} mph${precip}</div>`;
   } catch { els.weather.innerHTML = '<div class="cb-loading">Unavailable</div>'; }
