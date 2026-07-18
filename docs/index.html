@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X27 Bus Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="route-badge">X27</div>
+    <div class="title-block">
+      <h1>Bus Tracker</h1>
+      <div id="direction-label" class="subtitle">Loading&hellip;</div>
+    </div>
+    <div class="status">
+      <span id="status-dot" class="status-dot"></span>
+      <span id="status-text">Connecting&hellip;</span>
+    </div>
+  </header>
+
+  <div id="leave-banner" class="leave-banner hidden">
+    <div class="banner-icon">!</div>
+    <span id="leave-banner-text"></span>
+  </div>
+
+  <div class="app-layout">
+
+    <!-- ---- Street column ---- -->
+    <div class="street-col">
+      <div id="error" class="error hidden"></div>
+      <div id="line" class="line" aria-label="X27 stops"></div>
+    </div>
+
+    <!-- ---- Call-box sidebar ---- -->
+    <aside class="sidebar" aria-label="Info panels">
+
+      <div class="call-box" id="box-arrivals">
+        <div class="cb-header">72 ST ARRIVALS</div>
+        <div class="cb-body" id="arrivals-body">
+          <div class="cb-loading">Loading&hellip;</div>
+        </div>
+      </div>
+
+      <div class="call-box" id="box-eta">
+        <div class="cb-header">TO LOWER MANHATTAN</div>
+        <div class="cb-body" id="eta-body">
+          <div class="cb-loading">Waiting&hellip;</div>
+        </div>
+      </div>
+
+      <div class="call-box" id="box-weather">
+        <div class="cb-header">BAY RIDGE WEATHER</div>
+        <div class="cb-body" id="weather-body">
+          <div class="cb-loading">Loading&hellip;</div>
+        </div>
+      </div>
+
+      <div class="call-box" id="box-links">
+        <div class="cb-header">LINK</div>
+        <div class="cb-body">
+          <a class="quick-link" href="https://bustime.mta.info/m/?q=X27" target="_blank" rel="noopener">X27 on MTA Bus Time</a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <footer class="footer">
+    Updated <span id="updated">&mdash;</span> &middot; refreshes every 15 s &middot; data &copy; MTA Bus Time
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
