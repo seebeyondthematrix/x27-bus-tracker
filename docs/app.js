@@ -414,19 +414,7 @@ function render(data) {
     const bus = document.createElement('div');
     bus.className = 'bus'; bus.style.top = `${y}px`;
     const iconWrap = document.createElement('div'); iconWrap.innerHTML = busSvg();
-    const bubble   = document.createElement('div'); bubble.className = 'bus-bubble';
-    const label = paxLabel(v);
-    if (label) {
-      const paxEl = document.createElement('div'); paxEl.className = 'bus-pax'; paxEl.textContent = label;
-      bubble.appendChild(paxEl);
-      if (v.passengerCount != null && v.passengerCapacity) {
-        const wrap = document.createElement('div'); wrap.className = 'pax-bar-wrap';
-        const bar  = document.createElement('div'); bar.className = 'pax-bar';
-        bar.style.width = `${Math.min(100, Math.round(v.passengerCount / v.passengerCapacity * 100))}%`;
-        wrap.appendChild(bar); bubble.appendChild(wrap);
-      }
-    }
-    bus.appendChild(iconWrap); bus.appendChild(bubble);
+    bus.appendChild(iconWrap);
     els.line.appendChild(bus);
   });
 
