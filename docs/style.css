@@ -2,7 +2,7 @@
    X27 Bus Tracker — street-themed UI
    ============================================================ */
 :root {
-  --row-h:      76px;
+  --row-h:      52px;
   --spine-x:    46px;   /* center of the road */
   --road-w:     54px;   /* road surface width  */
   --road-l:     19px;   /* spine-x - road-w/2  */
@@ -232,7 +232,7 @@ body {
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .stop.passed .stop-name { color: var(--muted); }
-.stop-sub { font-size: 11px; color: var(--muted); margin-top: 2px; min-height: 12px; }
+.stop-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
 
 .stop-tag {
   display: inline-block;

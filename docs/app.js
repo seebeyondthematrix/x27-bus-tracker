@@ -14,7 +14,7 @@ const LAST_STOP_ID   = 'MTA_307078'; // 3 Av / Senator St — truncate here
 const MANHATTAN_STOP = 'MTA_400071'; // Church St / Liberty St
 const BASE           = 'https://bustime.mta.info';
 
-const ROW_H     = 76;
+const ROW_H     = 52;
 const REFRESH   = 15000;
 const SOON_MINS = 10;
 
